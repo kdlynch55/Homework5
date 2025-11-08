@@ -71,10 +71,10 @@ setMethod('+', c('sparse_numeric', 'sparse_numeric'), function(e1, e2) {sparse_a
 setMethod('*', c('sparse_numeric', 'sparse_numeric'), function(e1, e2) {sparse_mult(e1, e2)})
 setMethod('-', c('sparse_numeric', 'sparse_numeric'), function(e1, e2) {sparse_sub(e1, e2)})
 
-setAs('numeric', 'sparse_numeric', function(vector) {
-  if (!is.numeric(vector)) {stop()}
-  non_zero <- which(vector != 0) # Removes 0s
-  new('sparse_numeric', values = vector[non_zero], pos = as.integer(non_zero), length = length(vector))
+setAs('numeric', 'sparse_numeric', function(from) {
+  if (!is.numeric(from)) {stop()}
+  non_zero <- which(from != 0) # Removes 0s
+  new('sparse_numeric', value = from[non_zero], pos = as.integer(non_zero), length = length(from))
 })
 
 setAs("sparse_numeric", "numeric", function(vector) {
