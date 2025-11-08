@@ -72,6 +72,7 @@ setMethod('*', c('sparse_numeric', 'sparse_numeric'), function(e1, e2) {sparse_m
 setMethod('-', c('sparse_numeric', 'sparse_numeric'), function(e1, e2) {sparse_sub(e1, e2)})
 
 setAs('numeric', 'sparse_numeric', function(vector) {
+  if (!is.numeric(vector)) {stop()}
   non_zero <- which(vector != 0) # Removes 0s
   new('sparse_numeric', values = vector[non_zero], pos = as.integer(non_zero), length = length(vector))
 })
