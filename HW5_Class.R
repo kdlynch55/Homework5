@@ -12,6 +12,8 @@ setClass(
 setValidity('sparse_numeric', function(object) {
   if (length(object@pos) != length(object@value)) {
     return('The length of the positions and values do not match')}
+  if (any(object@pos < 1) | any(object@pos > object@length)) {
+    return('The positions are not within the length')}
   TRUE})
 
 setGeneric('sparse_add', function(first,second,...) {standardGeneric('sparse_add')})
