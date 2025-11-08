@@ -14,10 +14,10 @@ setValidity('sparse_numeric', function(object) {
     return('The length of the positions and values do not match')}
   TRUE})
 
-setGeneric('sparse_add', function(x,y,...) {standardGeneric('sparse_add')})
-setGeneric('sparse_mult', function(x,y,...) {standardGeneric('sparse_mult')})
-setGeneric('sparse_sub', function(x,y,...) {standardGeneric('sparse_sub')})
-setGeneric('sparse_crossprod', function(x,y,...) {standardGeneric('sparse_crossprod')}) 
+setGeneric('sparse_add', function(first,second,...) {standardGeneric('sparse_add')})
+setGeneric('sparse_mult', function(first,second,...) {standardGeneric('sparse_mult')})
+setGeneric('sparse_sub', function(first,second,...) {standardGeneric('sparse_sub')})
+setGeneric('sparse_crossprod', function(first,second,...) {standardGeneric('sparse_crossprod')}) 
 
 setMethod('sparse_add', c('sparse_numeric', 'sparse_numeric'), function(first, second) {
   if (first@length != second@length) {stop()}
@@ -65,9 +65,9 @@ setMethod('sparse_crossprod', c('sparse_numeric', 'sparse_numeric'), function(fi
   c(sum(crossprod$value)) # Creates numeric vector
 })
 
-setMethod('+', c('sparse_numeric', 'sparse_numeric'), function(first, second) {sparse_add(first, second)})
-setMethod('*', c('sparse_numeric', 'sparse_numeric'), function(first, second) {sparse_mult(first, second)})
-setMethod('-', c('sparse_numeric', 'sparse_numeric'), function(first, second) {sparse_sub(first, second)})
+setMethod('+', c('sparse_numeric', 'sparse_numeric'), function(e1, e2) {sparse_add(e1, e2)})
+setMethod('*', c('sparse_numeric', 'sparse_numeric'), function(e1, e2) {sparse_mult(e1, e2)})
+setMethod('-', c('sparse_numeric', 'sparse_numeric'), function(e1, e2) {sparse_sub(e1, e2)})
 
 setAs('numeric', 'sparse_numeric', function(vector) {
   non_zero <- which(vector != 0) # Removes 0s
@@ -83,18 +83,18 @@ setMethod('show', 'sparse_numeric', function(vector) {
   df <- data.frame(pos = vector@pos, value = vector@value)
   print(df)})
 
-setMethod('plot', c('sparse_numeric', 'sparse_numeric'), function(first, second) {
-  if (first@length != second@length) {stop()}
+setMethod('plot', c('sparse_numeric', 'sparse_numeric'), function(x, y) {
+  if (x@length != y@length) {stop()}
   
-  both_pos <- intersect(first@pos, second@pos)
+  both_pos <- intersect(x@pos, y@pos)
   
-  plot(first@values[match(both_pos, first@pos)], second@values[match(both_pos, second@pos)], 
+  plot(x@values[match(both_pos, x@pos)], y@values[match(both_pos, y@pos)], 
        xlab = 'first sparse numeric vector', 
        ylab = 'second sparse numeric vector', 
        main = 'overlapping non-zero elements of two sparse_numeric vectors')
 })
 
-setGeneric('sparse_div', function(x,y,...) {standardGeneric('sparse_div')})
+setGeneric('sparse_div', function(first,second,...) {standardGeneric('sparse_div')})
 setMethod('sparse_div', c('sparse_numeric', 'sparse_numeric'), function(first, second) {
   if (first@length != second@length) {stop()}
   
