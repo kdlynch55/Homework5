@@ -38,8 +38,8 @@ setMethod('sparse_mult', c('sparse_numeric', 'sparse_numeric'), function(first, 
   
   both_pos <- intersect(first@pos, second@pos)
   
-  mult <- first@values[match(both_pos, first@pos)] * 
-    second@values[match(both_pos, second@pos)]
+  mult <- first@value[match(both_pos, first@pos)] * 
+    second@value[match(both_pos, second@pos)]
   
   new('sparse_numeric', value = mult, pos = both_pos, length = first@length) # Creates sparse numeric
 })
@@ -61,8 +61,8 @@ setMethod('sparse_crossprod', c('sparse_numeric', 'sparse_numeric'), function(fi
   
   both_pos <- intersect(first@pos, second@pos)
   
-  crossprod <- first@values[match(both_pos, first@pos)] *
-    second@values[match(both_pos, second@pos)]
+  crossprod <- first@value[match(both_pos, first@pos)] *
+    second@value[match(both_pos, second@pos)]
   
   return(c(sum(crossprod))) # Creates numeric vector
 })
@@ -79,7 +79,7 @@ setAs('numeric', 'sparse_numeric', function(from) {
 
 setAs("sparse_numeric", "numeric", function(vector) {
   numeric_vector <- numeric(vector@length) # Makes vector of 0
-  numeric_vector[vector@pos] <- vector@values # Replaces 0s with values
+  numeric_vector[vector@pos] <- vector@value # Replaces 0s with values
   numeric_vector})
 
 setMethod('show', 'sparse_numeric', function(vector) {
@@ -91,7 +91,7 @@ setMethod('plot', c('sparse_numeric', 'sparse_numeric'), function(x, y) {
   
   both_pos <- intersect(x@pos, y@pos)
   
-  plot(x@values[match(both_pos, x@pos)], y@values[match(both_pos, y@pos)], 
+  plot(x@value[match(both_pos, x@pos)], y@value[match(both_pos, y@pos)], 
        xlab = 'first sparse numeric vector', 
        ylab = 'second sparse numeric vector', 
        main = 'overlapping non-zero elements of two sparse_numeric vectors')
@@ -103,8 +103,8 @@ setMethod('sparse_div', c('sparse_numeric', 'sparse_numeric'), function(first, s
   
   both_pos <- intersect(first@pos, second@pos)
   
-  div <- first@values[match(both_pos, first@pos)] / 
-    second@values[match(both_pos, second@pos)]
+  div <- first@value[match(both_pos, first@pos)] / 
+    second@value[match(both_pos, second@pos)]
   
   new('sparse_numeric', value = div, pos = both_pos, length = first@length) # Creates sparse numeric
 })
