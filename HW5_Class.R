@@ -37,11 +37,11 @@ setMethod('sparse_mult', c('sparse_numeric', 'sparse_numeric'), function(first, 
   both_combined <- data.frame(pos = c(first@pos, second@pos), value = c(first@value, second@value))
   
   both_pos <- intersect(first@pos, second@pos)
-  both_combined <- both_combined[both_combined$pos %in% both_pos, ]
   
-  mult <- aggregate(both_combined$value ~ both_combined$pos, prod)
+  mult <- first@values[match(both_pos, first@pos)] * 
+    second@values[match(both_pos, second@pos)]
   
-  new('sparse_numeric', value = mult$value, pos = mult$pos, length = first@length) # Creates sparse numeric
+  new('sparse_numeric', value = mult, pos = both_pos, length = first@length) # Creates sparse numeric
 })
 
 setMethod('sparse_sub', c('sparse_numeric', 'sparse_numeric'), function(first, second) {
@@ -60,11 +60,11 @@ setMethod('sparse_crossprod', c('sparse_numeric', 'sparse_numeric'), function(fi
   both_combined <- data.frame(pos = c(first@pos, second@pos), value = c(first@value, second@value))
   
   both_pos <- intersect(first@pos, second@pos)
-  both_combined <- both_combined[both_combined$pos %in% both_pos, ]
   
-  crossprod <- aggregate(both_combined$value ~ both_combined$pos, prod)
+  crossprod <- first@values[match(both_pos, first@pos)] *
+    second@values[match(both_pos, second@pos)]
   
-  c(sum(crossprod$value)) # Creates numeric vector
+  return(c(sum(crossprod))) # Creates numeric vector
 })
 
 setMethod('+', c('sparse_numeric', 'sparse_numeric'), function(e1, e2) {sparse_add(e1, e2)})
