@@ -9,8 +9,8 @@ setClass(
     )
 )
 
-setValidity('sparse_numeric', function(x) {
-  if (length(x@pos) != length(x@value)) {
+setValidity('sparse_numeric', function(object) {
+  if (length(object@pos) != length(object@value)) {
     return('The length of the positions and values do not match')}
   TRUE})
 
