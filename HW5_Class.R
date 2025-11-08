@@ -52,7 +52,7 @@ setMethod('sparse_sub', c('sparse_numeric', 'sparse_numeric'), function(first, s
   sub <- tapply(both_values, both_pos, sum)
   
   non_zero <- sub[sub != 0]
-  new('sparse_numeric', value = non_zero, pos = as.numeric(names(non_zero)), length = first@length) # Creates sparse numeric
+  new('sparse_numeric', value = as.numeric(non_zero), pos = as.integer(as.numeric(names(non_zero))), length = first@length) # Creates sparse numeric
 })
 
 setMethod('sparse_crossprod', c('sparse_numeric', 'sparse_numeric'), function(first, second) {
