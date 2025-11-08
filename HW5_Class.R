@@ -84,7 +84,7 @@ setAs("sparse_numeric", "numeric", function(vector) {
 
 setMethod('show', 'sparse_numeric', function(vector) {
   df <- data.frame(pos = vector@pos, value = vector@value)
-  cat(df)})
+  df})
 
 setMethod('plot', c('sparse_numeric', 'sparse_numeric'), function(x, y) {
   if (x@length != y@length) {stop()}
